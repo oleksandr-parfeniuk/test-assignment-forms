@@ -1,0 +1,48 @@
+<div class="card">
+  <div class="card-body">
+    <button
+      type="button"
+      class="btn-close float-end"
+      (click)="onRemove()"
+    ></button>
+    <form [formGroup]="formGroup">
+      <div class="mb-3">
+        <label class="form-label">Country</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="country"
+          [ngbTypeahead]="search"
+          [inputFormatter]="formatter"
+          [resultFormatter]="formatter"
+          appInputValidation
+          [customErrorMessages]="{
+            invalidCountry: 'Please provide a correct Country.'
+          }"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="username"
+          appInputValidation
+          [customErrorMessages]="{
+            unavailable: 'This username is already taken.'
+          }"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Birthday</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="birthday"
+          [max]="maxDate"
+          appInputValidation
+        />
+      </div>
+    </form>
+  </div>
+</div>

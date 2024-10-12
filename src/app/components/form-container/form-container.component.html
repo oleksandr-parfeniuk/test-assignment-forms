@@ -1,0 +1,57 @@
+<div>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <ng-container *ngIf="!isSubmitting">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!canSubmitForms()"
+        >
+          Submit all forms
+        </button>
+        <span class="invalid-forms-label" *ngIf="invalidFormsCount > 0">
+          Invalid forms: {{ invalidFormsCount }}
+        </span>
+      </ng-container>
+      <ng-container *ngIf="isSubmitting">
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="cancelSubmission()"
+        >
+          Cancel
+        </button>
+        <span class="timer">{{ "0:0" + remainingTimeInSeconds }}</span>
+      </ng-container>
+    </div>
+    <div formArrayName="forms">
+      <div class="row">
+        <div
+          class="col-md-4 mb-3"
+          *ngFor="
+            let form of formArray.controls;
+            let i = index;
+            trackBy: trackByIndex
+          "
+        >
+          <app-form-card
+            [formGroup]="getFormGroup(i)"
+            [countries]="countries"
+            (remove)="removeFormCard(i)"
+            (checkingUsername)="updateServerCheckingState(i, $event)"
+          ></app-form-card>
+        </div>
+        <div class="col-md-4 mb-3">
+          <button
+            type="button"
+            class="add-form-btn"
+            (click)="addFormCard()"
+            [disabled]="!canAddFormCard()"
+          >
+            <div class="plus-icon">+</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
